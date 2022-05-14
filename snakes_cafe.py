@@ -42,22 +42,31 @@ print('''
 ''')
 
 while finished == 0:
-    response = input()
+    response = input('> ')
     if response == 'quit' or response == 'QUIT' or response == 'q' or response == 'Q':
         finished = 1
-    elif response in allItems:
-        if response in order:
-            order[order.index(response) + 1] += 1
-        else:
-            order.append(response)
-            order.append(1)
-        for item in order:
-            if order.index(item) % 2 == 0:
-                if order[order.index(item) + 1] > 1:
-                    pluralSubstring = ['s', 'have']
+    elif response in order:
+        order[order.index(response) + 1] += 1
+
+    else:
+        order.append(response)
+        order.append(1)
+
+    # Switch this out with the else statement immediately above to disable custom orders:
+    # elif response in allItems:
+    #     order.append(response)
+    #     order.append(1)
+    # else:
+    #     print("Please enter a valid menu item (case sensitive)")
+
+    for item in order:
+        if order.index(item) % 2 == 0:
+            if order[order.index(item) + 1] > 1:
+                pluralSubstring = ['s', 'have']
+            if item in allItems:
                 print(f'** {order[order.index(item) + 1]} order{pluralSubstring[0]} of {order[order.index(item)]} '
                       f'{pluralSubstring[1]} been added to your meal **')
-                pluralSubstring = ['', 'has']
-    else:
-        print("Please enter a valid menu item (case sensitive)")
-
+            else:
+                print(f'** Special order{pluralSubstring[0]}: {order[order.index(item)]} '
+                      f'x{order[order.index(item) + 1]} {pluralSubstring[1]} been added to your meal **')
+            pluralSubstring = ['', 'has']
