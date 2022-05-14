@@ -43,25 +43,29 @@ print('''
 
 while finished == 0:
     response = input('> ')
-    if response == 'quit' or response == 'QUIT' or response == 'q' or response == 'Q':
+    if response.lower() == 'quit' or response.lower() == 'q':
         finished = 1
     elif response in order:
         order[order.index(response) + 1] += 1
-
-    else:
+    elif response in allItems:
         order.append(response)
         order.append(1)
+    else:
+        specialOrder = ''
+        while specialOrder.lower() != 'y' and specialOrder.lower() != 'yes' and specialOrder.lower() != 'n' and \
+                specialOrder.lower() != 'no':
+            print("Sorry, this item isn't on the menu! Do you want to add it as a special order? Y/N")
+            specialOrder = input('> ')
+            if specialOrder.lower() == 'y' or specialOrder.lower() == 'yes':
+                order.append(response)
+                order.append(1)
 
     # Switch this out with the else statement immediately above to disable custom orders:
-    # elif response in allItems:
-    #     order.append(response)
-    #     order.append(1)
-    # else:
-    #     print("Please enter a valid menu item (case sensitive)")
 
     for item in order:
         if order.index(item) % 2 == 0:
             if order[order.index(item) + 1] > 1:
+                # Accounts for "have" / "had" and
                 pluralSubstring = ['s', 'have']
             if item in allItems:
                 print(f'** {order[order.index(item) + 1]} order{pluralSubstring[0]} of {order[order.index(item)]} '
